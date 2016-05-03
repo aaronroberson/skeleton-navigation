@@ -1,10 +1,25 @@
-//import {computedFrom} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';
+import {ServiceA} from 'service-a';
 
+@inject(ServiceA)
 export class Welcome {
   heading = 'Welcome to the Aurelia Navigation App!';
   firstName = 'John';
   lastName = 'Doe';
   previousValue = this.fullName;
+  users = [];
+
+  constructor(serviceA) {
+    this.serviceA = serviceA;
+
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.serviceA.list().then(users => {
+      this.users = users;
+    });
+  }
 
   //Getters can't be directly observed, so they must be dirty checked.
   //However, if you tell Aurelia the dependencies, it no longer needs to dirty check the property.

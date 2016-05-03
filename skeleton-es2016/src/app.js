@@ -1,4 +1,21 @@
+import {inject} from 'aurelia-framework';
+import {HttpClient} from 'aurelia-fetch-client';
+
+@inject(HttpClient)
 export class App {
+
+  constructor(httpClient) {
+    this.httpClient = httpClient;
+  }
+
+  activate() {
+    this.httpClient.configure(config => {
+      config
+        .useStandardConfiguration()
+        .withBaseUrl('https://api.github.com/');
+    });
+  }
+
   configureRouter(config, router) {
     config.title = 'Aurelia';
     config.map([

@@ -1,25 +1,17 @@
 import {inject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-fetch-client';
-import 'fetch';
+import {ServiceB} from 'service-b';
 
-@inject(HttpClient)
+@inject(ServiceB)
 export class Users {
-  heading = 'Github Users';
+  heading = 'Users from ServiceB';
   users = [];
 
-  constructor(http) {
-    http.configure(config => {
-      config
-        .useStandardConfiguration()
-        .withBaseUrl('https://api.github.com/');
-    });
-
-    this.http = http;
+  constructor(serviceB) {
+    this.serviceB = serviceB;
   }
 
   activate() {
-    return this.http.fetch('users')
-      .then(response => response.json())
+    return this.serviceB.list()
       .then(users => this.users = users);
   }
 }
